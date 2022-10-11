@@ -72,4 +72,23 @@ const createCartItemElement = ({ id, title, price }) => {
   return li;
 };
 
-window.onload = () => { };
+const buildProductSection = async () => {
+ const productSection = document.querySelector('.items');
+ const data = await fetchProducts('computador');
+ const { results } = data;
+ results.forEach((result) => {
+  const { id, title, thumbnail } = result;
+  const item = createProductItemElement({ id, title, thumbnail });
+  productSection.appendChild(item);
+ });
+};
+
+// const teste = async () => {
+//   const data = await fetchProducts('computador');
+//   const { results } = data;
+//   console.log(results);
+// };
+
+// teste();
+
+window.onload = () => { buildProductSection(); };
