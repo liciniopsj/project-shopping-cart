@@ -83,12 +83,18 @@ const buildProductSection = async () => {
  });
 };
 
-// const teste = async () => {
-//   const data = await fetchProducts('computador');
-//   const { results } = data;
-//   console.log(results);
+// const addEventListenerOnProductButtons = () => {
+// const item = document.getElementsByClassName('item');
+
+//   const itemButton = section.querySelector('.item__add');
+//   itemButton.addEventListener('click', () => {
+//     console.log('Evento Ok');
+//   });
+
 // };
 
-// teste();
+// addEventListenerOnProductButtons();
+
+// const item = document.getElementsByClassName('item');
 
 window.onload = () => { buildProductSection(); };
