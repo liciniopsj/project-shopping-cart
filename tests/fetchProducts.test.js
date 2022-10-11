@@ -24,8 +24,4 @@ describe('1 - Teste a função fetchProducts', () => {
     expect.assertions(1);
     expect(await fetchProducts()).toEqual(new Error('You must provide an url'));
   });
-  // implemente seus testes aqui*
-  fail('Teste vazio');
 });
-
-// it('', () => {});
