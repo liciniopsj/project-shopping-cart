@@ -68,33 +68,38 @@ const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', () => liElementEvent);
   return li;
 };
 
+const addToCart = async (event) => {
+  const product = event.path[1];
+  const cart = document.querySelector('.cart__items');
+  // console.log(product.firstChild.innerText);
+  const fethedItem = await fetchItem(product.firstChild.innerText);
+  // console.log(fethedItem);
+  const { id, title, price } = fethedItem;
+  const li = createCartItemElement({ id, title, price });
+  cart.appendChild(li);
+};
+
+const attachEventListiner = async () => {
+  const buttons = document.querySelectorAll('.item__add');
+  buttons.forEach((button) => {
+    button.addEventListener('click', addToCart);
+  });
+};
+
 const buildProductSection = async () => {
- const productSection = document.querySelector('.items');
- const data = await fetchProducts('computador');
- const { results } = data;
- results.forEach((result) => {
-  const { id, title, thumbnail } = result;
-  const item = createProductItemElement({ id, title, thumbnail });
-  productSection.appendChild(item);
+  const productData = {};
+  const productSection = document.querySelector('.items');
+  productData.data = await fetchProducts('computador');
+  const { results } = productData.data;
+  results.forEach((result) => {
+    const { id, title, thumbnail } = result;
+    const item = createProductItemElement({ id, title, thumbnail });
+    productSection.appendChild(item);
  });
 };
 
-// const addEventListenerOnProductButtons = () => {
-// const item = document.getElementsByClassName('item');
-
-//   const itemButton = section.querySelector('.item__add');
-//   itemButton.addEventListener('click', () => {
-//     console.log('Evento Ok');
-//   });
-
-// };
-
-// addEventListenerOnProductButtons();
-
-// const item = document.getElementsByClassName('item');
-
-window.onload = () => { buildProductSection(); };
+window.onload = async () => { await buildProductSection(); await attachEventListiner(); };
