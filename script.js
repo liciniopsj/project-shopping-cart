@@ -129,7 +129,7 @@ const buildProductSection = async () => {
 };
 
 const renderStoragedCartList = () => {
-  const cartItems = getSavedCartItems('cartItems');
+  const cartItems = JSON.parse(getSavedCartItems('cartItems'));
   if (cartItems !== null) {
     const cart = document.querySelector('ol');
     cartItems.forEach((item) => {
