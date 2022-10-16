@@ -1,3 +1,5 @@
+const CART = 'cart__items';
+
 // Esse tipo de comentário que estão antes de todas as funções são chamados de JSdoc,
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
 
@@ -77,6 +79,24 @@ const createCartItemElement = ({ id, title, price }) => {
   return li;
 };
 
+const emptyCart = () => {
+  const emptyCartButton = document.querySelector('.empty-cart');
+  emptyCartButton.addEventListener('click', () => {
+    const cart = document.querySelector('ol');
+    cart.innerHTML = '';
+    console.log(cart);
+  });
+};
+
+const saveCartItemsAux = ({ id, title, price }) => {
+   if (localStorage.getItem('cartItems') === null) {
+    localStorage.setItem('cartItems', JSON.stringify([]));
+  }
+  const newCart = JSON.parse(localStorage.getItem('cartItems'));
+  newCart.push({ id, title, price });
+  return newCart;
+};
+
 const addToCart = async (event) => {
   const product = event.path[1];
   const cart = document.querySelector('.cart__items');
@@ -85,6 +105,7 @@ const addToCart = async (event) => {
   // console.log(fethedItem);
   const { id, title, price } = fethedItem;
   const li = createCartItemElement({ id, title, price });
+  saveCartItems(saveCartItemsAux({ id, title, price }));
   cart.appendChild(li);
 };
 
@@ -107,4 +128,21 @@ const buildProductSection = async () => {
  });
 };
 
-window.onload = async () => { await buildProductSection(); await attachEventListiner(); };
+const renderStoragedCartList = () => {
+  const cartItems = getSavedCartItems('cartItems');
+  if (cartItems !== null) {
+    const cart = document.querySelector('ol');
+    cartItems.forEach((item) => {
+      const { id, title, price } = item;
+      const li = createCartItemElement({ id, title, price });
+      cart.appendChild(li);
+    });
+  }
+};
+
+window.onload = async () => { 
+  await buildProductSection(); 
+  await attachEventListiner();
+  renderStoragedCartList();
+  emptyCart();
+ };
