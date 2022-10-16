@@ -54,7 +54,12 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
-const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
+// const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
+
+const liElementEvent = (event) => {
+  const cart = document.querySelector('.cart__items');
+  cart.removeChild(event.srcElement);
+};
 
 /**
  * Função responsável por criar e retornar um item do carrinho.
@@ -68,7 +73,7 @@ const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-  li.addEventListener('click', () => liElementEvent);
+  li.addEventListener('click', liElementEvent);
   return li;
 };
 
